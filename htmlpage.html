@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky 6 Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .number {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .selected {
+            background-color: lightgreen;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lucky 6 Game</h1>
+    <p>Click on the numbers to select your 6 lucky numbers.</p>
+
+    <div>
+        <label for="betAmount">Enter Bet Amount:</label>
+        <input type="number" id="betAmount" min="1" placeholder="Enter amount">
+    </div>
+
+    <div id="numbers-container">
+        <!-- Numbers will be added here dynamically using JavaScript -->
+    </div>
+
+    <button onclick="generateResult()">Generate Result</button>
+
+    <div id="result"></div>
+
+    <script>
+        const totalNumbers = 48;
+        const selectedNumbers = new Set();
+
+        // Create number elements dynamically
+        const numbersContainer = document.getElementById('numbers-container');
+        for (let i = 1; i <= totalNumbers; i++) {
+            const numberElement = document.createElement('div');
+            numberElement.classList.add('number');
+            numberElement.textContent = i;
+            numberElement.addEventListener('click', () => toggleNumber(numberElement, i));
+            numbersContainer.appendChild(numberElement);
+        }
+
+        // Toggle selected numbers
+        function toggleNumber(element, number) {
+            if (selectedNumbers.has(number)) {
+                selectedNumbers.delete(number);
+                element.classList.remove('selected');
+            } else {
+                if (selectedNumbers.size < 6) {
+                    selectedNumbers.add(number);
+                    element.classList.add('selected');
+                } else {
+                    alert('You can only select 6 numbers.');
+                }
+            }
+        }
+
+        // Generate and display the result
+        function generateResult() {
+            const resultContainer = document.getElementById('result');
+            resultContainer.textContent = '';
+
+            const betAmount = parseFloat(document.getElementById('betAmount').value) || 0;
+            if (betAmount <= 0) {
+                alert('Please enter a valid bet amount.');
+                return;
+            }
+
+            const resultNumbers = [];
+            const revealedNumbers = [];
+
+            // Generate 35 random numbers
+            while (resultNumbers.length < 35) {
+                const randomNumber = Math.floor(Math.random() * totalNumbers) + 1;
+                if (!resultNumbers.includes(randomNumber)) {
+                    resultNumbers.push(randomNumber);
+                }
+            }
+
+            // Display numbers one by one with a delay
+            let index = 0;
+            const revealInterval = setInterval(() => {
+                revealedNumbers.push(resultNumbers[index]);
+                resultContainer.textContent = `Result: ${revealedNumbers.join(', ')}`;
+                index++;
+
+                if (index >= resultNumbers.length) {
+                    clearInterval(revealInterval);
+                    setTimeout(() => {
+                        const correctGuesses = [...selectedNumbers].filter(number => resultNumbers.includes(number));
+                        const totalWinnings = calculateWinnings(correctGuesses, betAmount);
+                        resultContainer.textContent = `Result: ${revealedNumbers.join(', ')} | Correct Guesses: ${correctGuesses.length === 6 ? 'Yes' : 'No'} | Guessed Numbers: ${correctGuesses.join(', ')} | Winnings: $${totalWinnings.toFixed(2)}`;
+                    }, 1000); // Wait for 1 second after revealing all numbers
+                }
+            }, 500); // Delay between revealed numbers (in milliseconds)
+        }
+
+        // Calculate winnings based on correct guesses and bet amount
+        function calculateWinnings(correctGuesses, betAmount) {
+            if (correctGuesses.length === 6) {
+                let totalWinnings = 0;
+                correctGuesses.forEach((guess, index) => {
+                    const placeMultiplier = index + 1; // Increase multiplier based on the order of correct guesses
+                    if (index == 6)
+                        placeMultiplier = 10000;
+
+                    totalWinnings += placeMultiplier * betAmount;
+                });
+                return totalWinnings;
+            } else {
+                return 0;
+            }
+        }
+    </script>
+</body>
+</html>
