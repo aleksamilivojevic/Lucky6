@@ -9,27 +9,121 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #f4f4f4;
         }
 
         .number {
             width: 50px;
             height: 50px;
-            border: 1px solid #ccc;
+            border: 2px solid #fff;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            background: #fff;
+            transition: all 0.3s ease;
+            margin: 10px;
             cursor: pointer;
-            margin: 0 5px;
         }
+
+            .number:hover {
+                background: lightgray;
+            }
 
         .selected {
             background-color: lightgreen;
+            color: #fff;
+        }
+
+        .drawn {
+            background-color: #3498db;
+            color: white;
+        }
+
+        #numbers-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 800px;
+            margin: 0 auto 20px;
         }
 
         #result {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #bet-container {
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            outline: none;
+            width: 150px;
+            text-align: center;
+            margin: 0 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background: #3498db;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+            button:hover {
+                background: #2980b9;
+            }
+
+        .drawn-numbers {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
             margin-top: 20px;
+        }
+
+        .drawn-number {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -37,18 +131,20 @@
     <h1>Lucky 6 Game</h1>
     <p>Click on the numbers to select your 6 lucky numbers.</p>
 
-    <div>
+    <div id="bet-container">
         <label for="betAmount">Enter Bet Amount:</label>
         <input type="number" id="betAmount" min="1" placeholder="Enter amount">
     </div>
 
-    <div id="numbers-container">
-        <!-- Numbers will be added here dynamically using JavaScript -->
+    <div id="numbers-container"> 
     </div>
 
     <button onclick="generateResult()">Generate Result</button>
 
-    <div id="result"></div>
+    <div id="result">
+        <h2>Drawn Numbers</h2>
+        <div class="drawn-numbers" id="drawn-numbers"></div>
+    </div>
 
     <script>
         const totalNumbers = 48;
@@ -79,10 +175,10 @@
             }
         }
 
-        // Generate and display the result
         function generateResult() {
             const resultContainer = document.getElementById('result');
-            resultContainer.textContent = '';
+            const drawnNumbersContainer = document.getElementById('drawn-numbers');
+            drawnNumbersContainer.innerHTML = '';
 
             const betAmount = parseFloat(document.getElementById('betAmount').value) || 0;
             if (betAmount <= 0) {
@@ -91,9 +187,6 @@
             }
 
             const resultNumbers = [];
-            const revealedNumbers = [];
-
-            // Generate 35 random numbers
             while (resultNumbers.length < 35) {
                 const randomNumber = Math.floor(Math.random() * totalNumbers) + 1;
                 if (!resultNumbers.includes(randomNumber)) {
@@ -101,40 +194,69 @@
                 }
             }
 
-            // Display numbers one by one with a delay
             let index = 0;
             const revealInterval = setInterval(() => {
-                revealedNumbers.push(resultNumbers[index]);
-                resultContainer.textContent = `Result: ${revealedNumbers.join(', ')}`;
+                const currentNumber = resultNumbers[index];
+
+                // Highlight the drawn number
+                const numberElements = document.querySelectorAll('.number');
+                numberElements.forEach((el) => {
+                    if (parseInt(el.textContent) === currentNumber) {
+                        el.classList.add('drawn');
+                    }
+                });
+
+                // Add the drawn number to the result container
+                const drawnNumberElement = document.createElement('div');
+                drawnNumberElement.classList.add('drawn-number');
+                drawnNumberElement.textContent = currentNumber;
+                drawnNumbersContainer.appendChild(drawnNumberElement);
+
                 index++;
 
                 if (index >= resultNumbers.length) {
                     clearInterval(revealInterval);
+
+                    // After all numbers are revealed, check the user's result
+                    const correctGuesses = [...selectedNumbers].filter(number => resultNumbers.includes(number));
+                    const totalWinnings = calculateWinnings(correctGuesses, betAmount);
+
                     setTimeout(() => {
-                        const correctGuesses = [...selectedNumbers].filter(number => resultNumbers.includes(number));
-                        const totalWinnings = calculateWinnings(correctGuesses, betAmount);
-                        resultContainer.textContent = `Result: ${revealedNumbers.join(', ')} | Correct Guesses: ${correctGuesses.length === 6 ? 'Yes' : 'No'} | Guessed Numbers: ${correctGuesses.join(', ')} | Winnings: $${totalWinnings.toFixed(2)}`;
-                    }, 1000); // Wait for 1 second after revealing all numbers
+                        if (correctGuesses.length > 0) {
+                            resultContainer.innerHTML = `
+                        <h2>You Win!</h2>
+                        <p>Correct Guesses: ${correctGuesses.length}</p>
+                        <p>Your Numbers: ${[...selectedNumbers].join(', ')}</p>
+                        <p>Drawn Numbers: ${resultNumbers.slice(0, 6).join(', ')}</p>
+                        <p>Winnings: $${totalWinnings.toFixed(2)}</p>
+                    `;
+                        } else {
+                            resultContainer.innerHTML = `
+                        <h2>You Lose</h2>
+                        <p>Better luck next time!</p>
+                        <p>Your Numbers: ${[...selectedNumbers].join(', ')}</p>
+                        <p>Drawn Numbers: ${resultNumbers.slice(0, 6).join(', ')}</p>
+                    `;
+                        }
+                    }, 1000); // Show result after a short delay
                 }
-            }, 500); // Delay between revealed numbers (in milliseconds)
+            }, 500);
         }
 
         // Calculate winnings based on correct guesses and bet amount
         function calculateWinnings(correctGuesses, betAmount) {
-            if (correctGuesses.length === 6) {
-                let totalWinnings = 0;
-                correctGuesses.forEach((guess, index) => {
-                    const placeMultiplier = index + 1; // Increase multiplier based on the order of correct guesses
-                    if (index == 6)
-                        placeMultiplier = 10000;
-
-                    totalWinnings += placeMultiplier * betAmount;
-                });
-                return totalWinnings;
-            } else {
-                return 0;
-            }
+            const payouts = {
+                1: 1.5,
+                2: 5,
+                3: 15,
+                4: 50,
+                5: 250,
+                6: 1000
+            };
+            const numberOfCorrectGuesses = correctGuesses.length;
+            return payouts[numberOfCorrectGuesses] ? payouts[numberOfCorrectGuesses] * betAmount : 0;
         }
+
     </script>
 </body>
 </html>
