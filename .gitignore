@@ -3,3 +3,14 @@
 ################################################################################
 
 /.vs
+/obj/Debug/net6.0/apphost.exe
+/obj/Debug/net6.0/refint/WebApplication1.dll
+/obj/Debug/net6.0/WebApplication1.AssemblyInfo.cs
+/obj/Debug/net6.0/WebApplication1.AssemblyInfoInputs.cache
+/obj/Debug/net6.0/WebApplication1.dll
+/obj/Debug/net6.0/WebApplication1.pdb
+/obj/Debug/net6.0/WebApplication1.sourcelink.json
+/bin/Debug/net6.0/WebApplication1.dll
+/bin/Debug/net6.0/WebApplication1.exe
+/bin/Debug/net6.0/WebApplication1.pdb
+/obj/Debug/net6.0/ref/WebApplication1.dll
