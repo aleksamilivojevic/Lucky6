@@ -2,24 +2,23 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.IO;
 
 namespace WebApplication1
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
-			var app = builder.Build();
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
-			app.MapGet("/", context =>
-			{
-				var htmlContent = File.ReadAllText("htmlpage.html");
-				return context.Response.WriteAsync(htmlContent);
-			});
+            builder.Services.AddDirectoryBrowser();
 
-			app.Run();
-		}
-	}
+            var app = builder.Build();
+
+            app.UseDefaultFiles(); 
+            app.UseStaticFiles(); 
+
+            app.Run();
+        }
+    }
 }
