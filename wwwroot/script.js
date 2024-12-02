@@ -107,28 +107,52 @@ function calculateWinnings(correctGuesses, betAmount) {
     return payouts[numberOfCorrectGuesses] ? payouts[numberOfCorrectGuesses] * betAmount : 0;
 }
 function resetGame() {
-    // Clear selected numbers
+    // Step 1: Clear selected numbers set
     selectedNumbers.clear();
 
-    // Reset all number elements to their default state
+    // Step 2: Reset all number elements to their default state
     const numberElements = document.querySelectorAll('.number');
     numberElements.forEach((element) => {
-        element.classList.remove('selected', 'drawn');
+        element.classList.remove('selected', 'drawn'); // Remove both classes
     });
 
-    // Clear the result container
+    // Step 3: Clear the drawn numbers container if it exists
     const drawnNumbersContainer = document.getElementById('drawn-numbers');
-    drawnNumbersContainer.innerHTML = '';
+    if (drawnNumbersContainer) {
+        drawnNumbersContainer.innerHTML = '';
+    } else {
+        console.warn("drawn-numbers container not found.");
+    }
 
+    // Step 4: Reset the result container to its default state
     const resultContainer = document.getElementById('result');
-    resultContainer.innerHTML = `
-        <h2>Drawn Numbers</h2>
-        <div class="drawn-numbers" id="drawn-numbers"></div>
-    `;
+    if (resultContainer) {
+        resultContainer.innerHTML = `
+            <h2>Drawn Numbers</h2>
+            <div class="drawn-numbers" id="drawn-numbers"></div>
+        `;
+    } else {
+        console.warn("Result container not found.");
+    }
 
-    // Reset the bet amount field
-    document.getElementById('betAmount').value = '';
+    // Step 5: Clear the bet amount input
+    const betInput = document.getElementById('betAmount');
+    if (betInput) {
+        betInput.value = '';
+    } else {
+        console.warn("Bet amount input not found.");
+    }
 
-    // Log for debugging
-    console.log("Game has been reset!");
+    // Step 6: Reset console or debugging logs
+    console.log("Game has been reset successfully!");
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Bind event listeners and ensure elements are ready
+    const resetButton = document.getElementById('resetButton');
+    if (resetButton) {
+        resetButton.addEventListener('click', resetGame);
+    }
+});
+
+

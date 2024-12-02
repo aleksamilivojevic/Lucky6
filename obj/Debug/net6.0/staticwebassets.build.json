@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XAKGczPV37r/o91Wmghht9/f1mgOv9Q58N0CMwA6M8M=",
+  "Hash": "cLoWq8xwPhCexeR+eIq2YnZQ0hCemsy1WaHln5t5cpw=",
   "Source": "WebApplication1",
   "BasePath": "_content/WebApplication1",
   "Mode": "Default",
@@ -52,8 +52,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "47cfkzdker",
-      "Integrity": "gETF5FsVV7GAm0qH75ABrqQM8KJBIJCwmnjjfnPvkMU=",
+      "Fingerprint": "4bnms120vp",
+      "Integrity": "gH9ZJhb+m11zbNbGYtpVgTbfoCgtDwtgbE8engyfDYE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\script.js"
@@ -164,7 +164,7 @@
       ]
     },
     {
-      "Route": "script.47cfkzdker.js",
+      "Route": "script.4bnms120vp.js",
       "AssetFile": "C:\\Users\\User\\Source\\Repos\\Lucky6\\wwwroot\\script.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -174,7 +174,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4933"
+          "Value": "5762"
         },
         {
           "Name": "Content-Type",
@@ -182,11 +182,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"gETF5FsVV7GAm0qH75ABrqQM8KJBIJCwmnjjfnPvkMU=\""
+          "Value": "\"gH9ZJhb+m11zbNbGYtpVgTbfoCgtDwtgbE8engyfDYE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Dec 2024 11:12:07 GMT"
+          "Value": "Mon, 02 Dec 2024 11:34:39 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -196,7 +196,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "47cfkzdker"
+          "Value": "4bnms120vp"
         },
         {
           "Name": "label",
@@ -204,7 +204,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-gETF5FsVV7GAm0qH75ABrqQM8KJBIJCwmnjjfnPvkMU="
+          "Value": "sha256-gH9ZJhb+m11zbNbGYtpVgTbfoCgtDwtgbE8engyfDYE="
         }
       ]
     },
@@ -219,7 +219,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4933"
+          "Value": "5762"
         },
         {
           "Name": "Content-Type",
@@ -227,11 +227,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"gETF5FsVV7GAm0qH75ABrqQM8KJBIJCwmnjjfnPvkMU=\""
+          "Value": "\"gH9ZJhb+m11zbNbGYtpVgTbfoCgtDwtgbE8engyfDYE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Mon, 02 Dec 2024 11:12:07 GMT"
+          "Value": "Mon, 02 Dec 2024 11:34:39 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -241,7 +241,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-gETF5FsVV7GAm0qH75ABrqQM8KJBIJCwmnjjfnPvkMU="
+          "Value": "sha256-gH9ZJhb+m11zbNbGYtpVgTbfoCgtDwtgbE8engyfDYE="
         }
       ]
     },
